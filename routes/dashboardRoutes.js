@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router()
 
-const {getDashTask} = require('../controllers/dashboardController')
+const {getDashTask,markDashTask} = require('../controllers/dashboardController')
 
-router.get('/get',getDashTask)
+router.post('/get',getDashTask)
+router.put('/mark',markDashTask)
 
 module.exports = router

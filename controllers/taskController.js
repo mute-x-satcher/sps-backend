@@ -2,12 +2,14 @@ const {getTodayObject,generateDatesFromObj} = require('../date_and_time/dateTime
 const {taskModel} = require('../models/taskModel')
 const createTask = async (req,res) => {
     try {
-        const {taskName,taskType,taskDescription,topicId,subjectId} = req.body
-        if(!taskName || !taskType || !topicId || !subjectId) return res.status(400).json({msg: 'Please provide all fields'})
+        const {taskName,taskType,taskDescription,topicId,subjectId,accountId} = req.body
+        if(!taskName || !taskType || !topicId || !subjectId || !accountId) return res.status(400).json({msg: 'Please provide all fields'})
         
         const todayObj = getTodayObject()
         const dueDates = generateDatesFromObj(todayObj)    
         
+        console.log(req.body)
+
         console.log(todayObj)
         console.log(dueDates)        
 
@@ -22,6 +24,7 @@ const createTask = async (req,res) => {
             taskType: taskType,
             topicId: topicId,
             subjectId: subjectId,
+            accountId: accountId,
             taskDescription: taskDescription,
             taskDueDates: dueDateArray,
             createdAt: todayObj.dateString
@@ -38,7 +41,9 @@ const getTask = async (req,res) => {
     try {
         const {topicId} = req.body
         if(!topicId)  return res.status(400).json({msg: 'Please provide all fields'})
-        const allTaskInfo = await taskModel.find({topicId: topicId})
+        const allTaskInfo = await taskModel.find({topicId: topicId}).populate([
+            {path: 'topicId',select: 'topicName -_id'},
+            {path: 'subjectId', select: 'subjectName -_id'}])
         if(!allTaskInfo)  return res.status(400).json({msg: 'Tasks not found'})
         return res.status(200).json({msg: 'Task fetch successful' , allTaskInfo},)
         
@@ -50,10 +55,17 @@ const getTask = async (req,res) => {
 
 const updateTask = async (req,res) => {
     try {
-        const {taskName,taskId} = req.body
+        const {taskName,taskType,taskDescription,taskId} = req.body
         if(!taskName || !taskId ) return res.status(400).json({msg: 'Please provide all fields'})
 
-        const updatdedTaskInfo = await taskModel.updateOne({_id: taskId},{$set: {taskName: taskName}})
+        const updatdedTaskInfo = await taskModel.updateOne(
+            {_id: taskId},
+            {$set: {
+                taskName: taskName,
+                taskType: taskType,
+                taskDescription: taskDescription
+            }
+        })
         if(updatdedTaskInfo.updatedCount == 0) return res.status(400).json({msg: 'Task update faild'})
         return res.status(200).json({msg: 'Task updated successfully ',updatdedTaskInfo})
 

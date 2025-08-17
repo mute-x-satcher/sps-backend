@@ -19,8 +19,7 @@ const taskSchema = mongoose.Schema({
       },
       taskType:{
         type: String,
-        required: true,
-        enum: ['concept','practice set']
+        required: true
       },
       topicId:{
         type: mongoose.Schema.Types.ObjectId,
@@ -31,6 +30,10 @@ const taskSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'subjects'
+      },
+      accountId:{
+        type: mongoose.Schema.ObjectId,
+        required: true,
       },
       taskDescription:{
         type: String,

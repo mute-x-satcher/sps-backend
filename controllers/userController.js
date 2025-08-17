@@ -3,15 +3,15 @@ const {userModel} = require('../models/userModel')
 const createUser = async (req,res) => {
     try {
         
-        const {userName,userMobile,userPassword} = req.body
-        if(!userName || !userMobile || !userPassword) 
+        const {userName,userEmail,userPassword} = req.body
+        if(!userName || !userEmail|| !userPassword) 
         {
             res.status(400).json({msg: "Please provide all fields"})
         }
 
         const userInfo = await userModel.create({
             userName: userName,
-            userMobile: userMobile,
+            userEmail: userEmail,
             userPassword: userPassword
         }) 
 
@@ -24,11 +24,11 @@ const createUser = async (req,res) => {
 
 const loginUser = async (req,res) => {
     try {
-        const {userMobile,userPassword} = req.body
-        if(!userMobile || !userPassword) return res.status(400).json({msg: 'Please provide all fields'})
-        const userInfo = await userModel.findOne({userMobile: userMobile,userPassword: userPassword})
+        const {userEmail,userPassword} = req.body
+        if(!userEmail || !userPassword) return res.status(400).json({msg: 'Please provide all fields'})
+        const userInfo = await userModel.findOne({userEmail: userEmail,userPassword: userPassword})
         console.log(userInfo)
-        if(!userInfo) return  res.status(401).json({msg: 'Invalid mobile or password'})
+        if(!userInfo) return  res.status(401).json({msg: 'Invalid email or password'})
        
         return res.status(200).json({msg: `Login successful ${userInfo.userName}` , userInfo})   
 

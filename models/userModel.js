@@ -5,12 +5,9 @@ const userSchema = mongoose.Schema({
             type: String,
             required: true,
         },
-        userMobile:{
+        userEmail:{
             type: String,
             required: true
-        },
-        userOTP:{
-            type: String,
         },
         userPassword:{
             type: String,
