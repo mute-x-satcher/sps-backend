@@ -34,7 +34,7 @@ function generateDatesFromObj(dateObj) {
   // Then +25 days 3 times from the +24 date
   let lastDate = new Date(start);
   lastDate.setDate(lastDate.getDate() + 24);
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 12; i++) {
     lastDate.setDate(lastDate.getDate() + 25);
     dates.push(formatCustomDate(lastDate));
   }
