@@ -35,7 +35,7 @@ function generateDatesFromObj(dateObj) {
   let lastDate = new Date(start);
   lastDate.setDate(lastDate.getDate() + 24);
   for (let i = 0; i < 12; i++) {
-    lastDate.setDate(lastDate.getDate() + 25);
+    lastDate.setDate(lastDate.getDate() + 20);
     dates.push(formatCustomDate(lastDate));
   }
 
