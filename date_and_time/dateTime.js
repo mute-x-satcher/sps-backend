@@ -7,6 +7,7 @@ function formatCustomDate(date) {
   const weekday = parts[0].replace(',', ''); // remove existing comma
   return `${weekday}, ${parts[1]} ${parts[2]} ${parts[3]}`;
 }
+
 // Get today's date in your custom object format
 function getTodayObject() {
   const today = new Date();
@@ -18,24 +19,24 @@ function getTodayObject() {
   };
 }
 
-// Generate dates with +1, +3, +6, +12, +24 then +25 (3 times)
+// Generate dates with +1, +3, +6, +12 then +12 (12 times)
 function generateDatesFromObj(dateObj) {
   const start = new Date(dateObj.year, dateObj.month - 1, dateObj.date);
-  const offsets = [1, 3, 6, 12, 24];
+  const offsets = [1, 3, 6, 12];
   const dates = [];
 
-  // First part: +1, +3, +6, +12, +24 from start date
+  // First part: +1, +3, +6, +12 from start date
   offsets.forEach(offset => {
     const d = new Date(start);
     d.setDate(d.getDate() + offset);
     dates.push(formatCustomDate(d));
   });
 
-  // Then +25 days 3 times from the +24 date
+  // Then +12 days 12 times from the +12 date
   let lastDate = new Date(start);
-  lastDate.setDate(lastDate.getDate() + 24);
+  lastDate.setDate(lastDate.getDate() + 12);
   for (let i = 0; i < 12; i++) {
-    lastDate.setDate(lastDate.getDate() + 20);
+    lastDate.setDate(lastDate.getDate() + 12);
     dates.push(formatCustomDate(lastDate));
   }
 
@@ -49,5 +50,4 @@ const todayObj = getTodayObject();
 const futureDates = generateDatesFromObj(todayObj);
 // console.log("Generated Dates:", futureDates);
 
-
-module.exports = {getTodayObject,generateDatesFromObj}
+module.exports = { getTodayObject, generateDatesFromObj };
