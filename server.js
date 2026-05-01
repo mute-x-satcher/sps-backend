@@ -10,11 +10,11 @@ const topicRoutes = require('./routes/topicRoutes')
 const taskRoutes = require('./routes/taskRoutes')
 const dashboardRoutes = require('./routes/dashboardRoutes')
 
+app.use(cors({}))
 connectDB() // Connecting MongoDB
 
 //Routes
 
-app.use(cors({}))
 app.use(express.json()) // This for parsing in json
 
 app.use('/user',userRoutes)

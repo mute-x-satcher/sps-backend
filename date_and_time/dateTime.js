@@ -54,9 +54,9 @@ function generateDatesFromObj(dateObj) {
 
 // Example usage
 const todayObj = getTodayObject();
-console.log("Today Object:", todayObj);
+// console.log("Today Object:", todayObj);
 
 const futureDates = generateDatesFromObj(todayObj);
-console.log("Generated Dates:", futureDates);
+// console.log("Generated Dates:", futureDates);
 
 module.exports = { getTodayObject, generateDatesFromObj };

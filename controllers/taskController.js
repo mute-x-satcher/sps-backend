@@ -10,20 +10,23 @@ const createTask = async (req,res) => {
         
         console.log(req.body)
 
-        console.log(todayObj)
-        console.log(dueDates)        
+        // console.log(todayObj)
+        // console.log(dueDates)        
 
         const dueDateArray = []
-
+        console.log(dueDates)
         dueDates.map((dateObj) => {
+            // console.log(dateObj.offset,dateObj.date)
             if(dateObj.offset){
             dueDateArray.push({dueDate: dateObj.date , offset: dateObj.offset ,isCompleted: false})
             }else{
                 
             dueDateArray.push({dueDate: dateObj.date ,isCompleted: false})
             }
+            
         })
-        
+        console.log(dueDateArray)
+        console.log('todayObj',todayObj)
         const taskInfo = await taskModel.create({
             taskName: taskName,
             taskType: taskType,
@@ -32,9 +35,9 @@ const createTask = async (req,res) => {
             accountId: accountId,
             taskDescription: taskDescription,
             taskDueDates: dueDateArray,
-            createdAt: todayObj.dateString
+            createdAt: todayObj.dateString.date
         }) 
-        
+        // console.log('todayObj',todayObj)
         return res.status(200).json({msg: 'Task creation successful' , taskInfo})
 
     } catch (error) {
