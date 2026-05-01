@@ -5,6 +5,9 @@ const dueDates = mongoose.Schema({
         type: String,
         required: true
     },
+    offset:{
+        type: String
+    },
     isCompleted:{
         type: Boolean,
         default: false,
