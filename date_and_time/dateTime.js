@@ -19,24 +19,24 @@ function getTodayObject() {
   };
 }
 
-// Generate dates with +1, +3, +6, +12 then +12 (12 times)
+// Generate dates with +1,+2,+4 then +7 (626 times) approx 12 years
 function generateDatesFromObj(dateObj) {
   const start = new Date(dateObj.year, dateObj.month - 1, dateObj.date);
-  const offsets = [1, 3, 6, 12];
+  const offsets = [1, 2, 4,7];
   const dates = [];
 
-  // First part: +1, +3, +6, +12 from start date
+  // First part: +1,+2,+4 from start date
   offsets.forEach(offset => {
     const d = new Date(start);
     d.setDate(d.getDate() + offset);
     dates.push(formatCustomDate(d));
   });
 
-  // Then +12 days 12 times from the +12 date
+  // Then +7 days 626 times from the +7 date
   let lastDate = new Date(start);
-  lastDate.setDate(lastDate.getDate() + 12);
-  for (let i = 0; i < 12; i++) {
-    lastDate.setDate(lastDate.getDate() + 12);
+  lastDate.setDate(lastDate.getDate() + 7);
+  for (let i = 0; i < 626; i++) {
+    lastDate.setDate(lastDate.getDate() + 7);
     dates.push(formatCustomDate(lastDate));
   }
 
@@ -45,9 +45,9 @@ function generateDatesFromObj(dateObj) {
 
 // Example usage
 const todayObj = getTodayObject();
-// console.log("Today Object:", todayObj);
+console.log("Today Object:", todayObj);
 
 const futureDates = generateDatesFromObj(todayObj);
-// console.log("Generated Dates:", futureDates);
+console.log("Generated Dates:", futureDates);
 
 module.exports = { getTodayObject, generateDatesFromObj };
