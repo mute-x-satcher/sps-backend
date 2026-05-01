@@ -1,11 +1,20 @@
 // Function to format date in "Monday, 02 Aug 2025"
-function formatCustomDate(date) {
+function formatCustomDate(date,offset) {
   const options = { weekday: 'long', day: '2-digit', month: 'short', year: 'numeric' };
   const parts = date.toLocaleDateString('en-GB', options).split(' ');
   
   // parts: [ 'Monday,', '12', 'Aug', '2025' ]
   const weekday = parts[0].replace(',', ''); // remove existing comma
-  return `${weekday}, ${parts[1]} ${parts[2]} ${parts[3]}`;
+  
+  if(offset){
+      return {date:`${weekday}, ${parts[1]} ${parts[2]} ${parts[3]}`,
+              offset: offset 
+      };
+  }  
+  else{
+      return {date:`${weekday}, ${parts[1]} ${parts[2]} ${parts[3]}`};
+  }
+  
 }
 
 // Get today's date in your custom object format
@@ -29,7 +38,7 @@ function generateDatesFromObj(dateObj) {
   offsets.forEach(offset => {
     const d = new Date(start);
     d.setDate(d.getDate() + offset);
-    dates.push(formatCustomDate(d));
+    dates.push(formatCustomDate(d,offset));
   });
 
   // Then +7 days 626 times from the +7 date
