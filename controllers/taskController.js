@@ -15,8 +15,8 @@ const createTask = async (req,res) => {
 
         const dueDateArray = []
 
-        dueDates.map((dueDate) => {
-            dueDateArray.push({dueDate: dueDate , isCompleted: false})
+        dueDates.map((dateObj) => {
+            dueDateArray.push({dueDate: dateObj.date , offset: dateObj.offset? ,isCompleted: false})
         })
         
         const taskInfo = await taskModel.create({
