@@ -43,6 +43,9 @@ const taskSchema = mongoose.Schema({
         type: [dueDates],
         required: true
       },
+      restoreDate:{
+      type: String,    
+      },  
       createdAt:{
         type: String,
         required: true
