@@ -5,11 +5,12 @@ const getDashTask = async (req, res) => {
     try {
         const { accountId } = req.body
         const { dateString } = getTodayObject()
-
+        const restoreDate = dateString.date
+        
         // 1. Fetch the tasks
         const allDashTaskInfo = await taskModel.find({ 
             accountId: accountId, 
-            "taskDueDates.dueDate": dateString 
+            "taskDueDates.dueDate": dateString.date 
         }).populate([
             { path: 'topicId', select: 'topicName -_id' },
             { path: 'subjectId', select: 'subjectName -_id' }
@@ -20,14 +21,14 @@ const getDashTask = async (req, res) => {
             const taskIds = allDashTaskInfo.map(task => task._id)
             await taskModel.updateMany(
                 { _id: { $in: taskIds } },
-                { $set: { restoreDate: dateString } }
+                { $set: { restoreDate: dateString.date } }
             )
         }
 
         return res.status(200).json({ 
             msg: 'Dashboard task fetch successful and restoreDate updated', 
             allDashTaskInfo, 
-            dateString 
+            taskDate: dateString.date 
         })
 
     } catch (error) {
@@ -41,10 +42,10 @@ const markDashTask = async (req, res) => {
         const { taskId } = req.body
         const { dateString } = getTodayObject()
         const markedTaskInfo = await taskModel.updateOne(
-            { _id: taskId, "taskDueDates.dueDate": dateString },
+            { _id: taskId, "taskDueDates.dueDate": dateString.date },
             { $set: { "taskDueDates.$.isCompleted": true } }
         )
-
+        // console.log(markedTaskInfo)
         return res.status(200).json({ msg: 'Task marked successfully', markedTaskInfo })
     } catch (error) {
         console.log(`Controllers-dashboardController-markDashTask Error: ${error}`)
