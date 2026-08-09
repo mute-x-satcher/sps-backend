@@ -17,6 +17,9 @@ connectDB() // Connecting MongoDB
 
 app.use(express.json()) // This for parsing in json
 
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'UP' });
+});
 app.use('/user',userRoutes)
 app.use('/subject',subjectRoutes)
 app.use('/topic',topicRoutes)
